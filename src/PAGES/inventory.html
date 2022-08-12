@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../CSS/inventory.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src='../JS/inventory.js'></script>
+  </head>
+  <body>
+
+    <header class="headNavBar">
+      <a href="../index.html">
+      <div class="pageHead">
+        <img src="../CSS/IMG/w-logo-33543.png" alt="logo">
+        <h1>Manage</h1>
+      </div>
+    </a>
+    </header>
+
+    <nav class = 'sideNavBar'>
+        <div class="navBarTopBtn" role="button">
+          <h1 class="sideNavBtn">New Order</h1>
+        </div>
+
+    <div class="navBarTopBtn" role="button">
+      <h1 class="sideNavBtn">Open Orders</h1>
+    </div>
+
+    <div class="navBarTopBtn" role="button">
+      <h1 class="sideNavBtn">Past Orders</h1>
+    </div>
+
+
+    <a href="../PAGES/employees.html">
+    <div class="navBarTopBtn" role="button">
+      <h1 class="sideNavBtn">Employees</h1>
+    </div>
+  </a>
+
+  <a href="../PAGES/inventory.html">
+    <div class="navBarTopBtn" role="button" style="background: #2c2f33; cursor: pointer;">
+      <h1 class="sideNavBtn">Inventory</h1>
+    </div>
+</a>
+
+    <div class="navBarBtmBtn" role="button">
+      <h1 class="sideNavBtn">Notifications</h1>
+    </div>
+
+  </nav>
+
+
+<div class = "mainContent" id="mainContentId">
+
+<div class = "contentHead">
+    <h1>Inventory</h1>
+
+
+
+      <div class="plusButton">
+        <a href='#' onclick="toggle()">
+
+          <h1>+</h1>
+          </a>
+      </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+      <div id="invCatHeadDisplayHead9" style=" color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px; padding:0;">
+      <h1 style="float: left;"> ${name} </h1>
+
+          <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;float: right;" onclick="expandCategory(9)">
+            <h1 style="top:0;">+</h1>
+            </a>
+
+          </div>
+        <div class=invcatContent id=invCatContent9 style="display: none; overflow: hidden; ">
+        <table class=invcatContentTab id=invCatTab9>
+        <tr><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
+        </table>
+        </div>
+
+</div>
+
+
+<div class = "popupCategory" id="popup">
+  <h1>Enter Category Name</h1>
+  <br>
+  <input type="text" id="categoryNameTxt" name="catName">
+  <input type="submit" value="Submit" onclick="toggle()" id='catSubmitBtn'>
+</div>
+
+
+
+
+  </body>
+  <script type="text/javascript">
+
+
+
+  function toggle(){
+    var blur = document.getElementById('mainContentId');
+    blur.classList.toggle('active');
+
+    var popup = document.getElementById('popup');
+    popup.classList.toggle('active');
+  }
+
+
+
+
+  </script>
+</html>

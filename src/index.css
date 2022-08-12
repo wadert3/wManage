@@ -1,0 +1,194 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background: #3c3e44;
+
+}
+.constantElements {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width:960px){
+.sideNavBar {
+  background: #242629;
+  display: flex;
+  position:relative;
+  flex-flow: column;
+
+  height: calc(100vh - 150px);
+  width: 300px;
+float: left;
+  overflow: auto;
+  right:0px;
+  bottom:0px;
+  left:0px;
+}
+}
+
+@media (max-width:959px) and (orientation: landscape){
+.sideNavBar {
+  background: #242629;
+  display: flex;
+  flex-flow: column;
+  position:relative;
+  height: 100%;
+  width: 300px;
+  height: calc(100vh - 150px);
+  right:0px;
+  bottom:0px;
+  left:0px;
+  flex-flow: column;
+}
+}
+@media (orientation: portrait){
+.sideNavBar {
+  visibility: hidden;
+  background: #242629;
+  display: flex;
+  flex-flow: column;
+  position:relative;
+  height: 100%;
+  width: 300px;
+  height: calc(100vh - 150px);
+  right:0px;
+  bottom:0px;
+  left:0px;
+}
+}
+
+.navBarTopBtn {
+  background: #242629;
+  height: 85px;
+  display: flex;
+  justify-content: center;
+  left: 10px;
+  right: 10px;
+  align-items: center;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 30px;
+  color: #99aab5;
+}
+.navBarBtmBtn {
+  background: #242629;
+  height: 85px;
+  display: flex;
+  margin-top: auto;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 30px;
+  color: #99aab5;
+}
+
+.navBarPfpBtn {
+  background: #242629;
+  height: 85px;
+  display: flex;
+  margin-top: auto;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 30px;
+  color: #99aab5;
+}
+.nvaBarPfp {
+  display: inline;
+  height: 25px;
+  width: 25px;
+
+}
+
+.headNavBar {
+  height: 150px;
+  background: #242629;
+  display: flex;
+  flex: 0 1 auto;
+flex-flow: column;
+}
+
+ .navBarTopBtn:hover{
+	background: #2c2f33;
+  cursor: pointer;
+}
+ .navBarBtmBtn:hover{
+	background: #2c2f33;
+  cursor: pointer;
+}
+
+.pageHead{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-self: flex-end;
+}
+.pageHead img{
+  height: 150px;
+  padding-left: 20px;
+  float: right;
+  margin-top: auto;
+  display: inline-block;
+  align-self: flex-end;
+}
+.pageHead h1{
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 50px;
+  color: #bbbdc3;
+  font-style: bold;
+float: right;
+  margin-left: -30px;
+  margin-top: auto;
+  margin-bottom: 20px;
+  display: inline-block;
+  align-self: flex-end;
+}
+
+
+
+/* Toggle */
+.plus_icon {
+  position:relative;
+  width:10px; height:10px;
+  margin:100px auto;
+}
+
+.plus_icon:before {
+  content:"";
+  position:absolute;
+  width:50px;
+  height:10px;
+  background: #695c54;
+  display:inline-block;
+}
+
+.plus_icon:after {
+  content:"";
+  position:absolute;
+  margin-top:-20px;
+  margin-left:20px;
+  width:10px;
+  height:50px;
+  background: #695c54;
+  display:inline-block;
+}
+
+.plus_icon:hover:after{
+  margin-top:0px;
+  width:10px;
+  height:10px;
+}
+
+.plus_icon:before,
+.plus_icon:after {
+ -webkit-transition: all 0.3s ease;
+ -moz-transition: all 0.3s ease;
+ -ms-transition: all 0.3s ease;
+ -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
