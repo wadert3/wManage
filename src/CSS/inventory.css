@@ -16,7 +16,13 @@
     transition: 0.5s;
 }
 
-
+table, th, td {
+  border: 1px solid;
+  padding: 15px;
+  width: 100%;
+   table-layout: fixed;
+   align-content: center;
+}
 
 .popupCategory{
   position: absolute;

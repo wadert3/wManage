@@ -8,16 +8,16 @@ var connection = mysql.createConnection({
  });
 
  const invCategoriesTemp = ({catKey, name}) => `
- <div id="invCatHeadDisplayHead${catKey}" style="  flex: 0 0 auto; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px; padding:0;">
+ <div id="invCatHeadDisplayHead${catKey}" style="background:#242629; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px;">
  <h1 style="float: left;"> ${name} </h1>
 
-     <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;float: right;" onclick="expandCategory(${catKey})">
-       <h1 style="top:0;">+</h1>
+     <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px; width: 100%;" onclick="expandCategory(${catKey})">
+       <h1 style="">+</h1>
        </a>
 
      </div>
-   <div class=invcatContent id=invCatContent${catKey} style="display: none; overflow: hidden;">
-   <table class=invcatContentTab id=invCatTab${catKey} style="  position: relative;">
+   <div class=invcatContent id=invCatContent${catKey} style="display: none;">
+   <table class=invcatContentTab id=invCatTab${catKey} style=" width:100%; position: relative;">
    <tr><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
    </table>
    </div>
@@ -40,9 +40,9 @@ $(document).ready(function () {
         class: "invCatDisplay",
         id: "cat" + catKey,
        css:{
-           "padding": "10px",
-             "margin": "25px",
-           "background":"#242629",
+         "padding": "10px",
+          "margin": "25px",
+  //         "background":"#242629",
          }
         }
 
@@ -53,6 +53,8 @@ $(document).ready(function () {
   ].map(invCategoriesTemp).join(''));
 
         $(".mainContent").append($div);
+
+
 
 
 })
@@ -145,18 +147,30 @@ function createInvItemList(catKey){
       console.log(err);
       return;
     }
-        var a = result;
+        var upc, itemName, itemSize, itemPrice, itemStock;
         console.log(result);
-        createInventoryTable(a, catKey);
+        for(let i = 0; i == result.length; i++){
+          upc = result[i].UPC;
+
+          itemName = result[i].ItemName;
+          itemSize = result[i].ItemSize;
+          itemPrice = result[i].ItemPrice
+          itemStock = result[i].ItemStock;
+          console.log(upc, itemName, itemSize, itemPrice, itemStock);
+        createInventoryTable(upc, itemName, itemSize, itemPrice, itemStock, catKey);
+      }
   });
 
 
 }
 
 
-function createInventoryTable(itemArr, catKey){
+function createInventoryTable(upc, itemName, itemSize, itemPrice, itemStock, catKey){
 
-for(let i = 1; i <= itemArr.length; i++){
+
+
+
+console.log(itemArr[i]);
 
   $(document).ready(function () {
       var itemTableRow = {
@@ -166,19 +180,21 @@ for(let i = 1; i <= itemArr.length; i++){
 
         var $table = $("<tr>", itemTableRow);
 
-          $table.html();
+          $table.html("<tr><td>"+ upc + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>");
 
           $("#invCatTab" + catKey).append($table);
+
+
         })
-  }
+
 }
 
 function expandCategory(catKey){
 var content = document.getElementById("invCatContent" + catKey)
 
-  if (content.style.display === "block") {
+  if (content.style.display === "inline-block") {
      content.style.display = "none";
    } else {
-     content.style.display = "block";
+     content.style.display = "inline-block";
    }
 }
