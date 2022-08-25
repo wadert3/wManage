@@ -90,11 +90,11 @@ function insertCatRow(){
 
 
 function displayCategoriesQuery(result){
-var catName, upc, itemName, itemSize, itemPrice, itemStock;
+var catName;
 
 for(let i = 1; i <= result; i++){
   $query1 = "SELECT categoryName FROM inv_categories WHERE categoryKey =" + i;
-  $query = "SELECT * FROM inventory WHERE categoryID =" + i;
+//  $query = "SELECT * FROM inventory WHERE categoryID =" + i;
   connection.query($query1 , function(err, result, fields) {
   if(err){
       console.log("An error ocurred performing the query.");
@@ -107,13 +107,6 @@ for(let i = 1; i <= result; i++){
         createCategoryDropDown(catName, i);
         createInvItemList(i);
       });
-
-
-
-
-
-
-
 
   }
 }
@@ -147,47 +140,49 @@ function createInvItemList(catKey){
       console.log(err);
       return;
     }
-        var upc, itemName, itemSize, itemPrice, itemStock;
-        console.log(result);
-        for(let i = 0; i == result.length; i++){
-          upc = result[i].UPC;
+        var arr1 = result;
+        console.log(arr1);
+        createInventoryTable(arr1, catKey);
 
-          itemName = result[i].ItemName;
-          itemSize = result[i].ItemSize;
-          itemPrice = result[i].ItemPrice
-          itemStock = result[i].ItemStock;
-          console.log(upc, itemName, itemSize, itemPrice, itemStock);
-        createInventoryTable(upc, itemName, itemSize, itemPrice, itemStock, catKey);
-      }
+
+
   });
 
 
 }
 
 
-function createInventoryTable(upc, itemName, itemSize, itemPrice, itemStock, catKey){
+function createInventoryTable(arr1, catKey){
+var upa, itemName, itemSize, itemPrice, itemStock;
+var $table = $("<tr>"/*, itemTableRow*/);
+var itemTableRow = {
+//    class: "invCatTable",
+//    id: "tableRow" + catKey,
+    }
 
+  for(let i = 0; i <= arr1.length; i++){
 
+     upa = arr1[i].UPC;
+     console.log(upa);
+     itemName = arr1[i].ItemName;
+     itemSize = arr1[i].ItemSize;
+     itemPrice = arr1[i].ItemPrice;
+     itemStock = arr1[i].ItemStock;
 
+    //  $(document).ready(function () {
 
-console.log(itemArr[i]);
+      $table.html("<td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td>");
 
-  $(document).ready(function () {
-      var itemTableRow = {
-          class: "invCatTable",
-          id: "table" + catKey,
+      $("#invCatTab" + catKey).append($table);
+  //  })
           }
 
-        var $table = $("<tr>", itemTableRow);
-
-          $table.html("<tr><td>"+ upc + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>");
-
-          $("#invCatTab" + catKey).append($table);
 
 
-        })
 
-}
+        }
+
+
 
 function expandCategory(catKey){
 var content = document.getElementById("invCatContent" + catKey)
