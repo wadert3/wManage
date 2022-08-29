@@ -2,8 +2,8 @@
   "name": "wmng-full",
   "productName": "wmng-full",
   "version": "1.0.0",
-  "description": "My Electron application description",
-  "main": "src/index.js",
+  "description": "wManage",
+  "main": "src/auth0main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -45,19 +45,21 @@
     }
   },
   "dependencies": {
+    "ably": "^1.2.29",
     "axios": "^0.27.2",
     "bulma": "^0.9.4",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
-    "keytar": "^7.9.0"
+    "keytar": "^7.9.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.63",
-    "@electron-forge/maker-deb": "^6.0.0-beta.63",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
-    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@electron-forge/cli": "^6.0.0-beta.65",
+    "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
+    "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "electron": "19.0.9"
   }
 }
