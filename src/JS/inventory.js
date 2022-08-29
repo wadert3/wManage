@@ -1,5 +1,6 @@
 window.$ = window.jQuery = require('jquery');
 var mysql = require('mysql');
+var Ably = require('ably');
 var connection = mysql.createConnection({
   host : 'localhost',
   user : 'root',
@@ -7,14 +8,17 @@ var connection = mysql.createConnection({
   database: 'wMng-db'
  });
 
+var cat;
  const invCategoriesTemp = ({catKey, name}) => `
  <div id="invCatHeadDisplayHead${catKey}" style="background:#242629; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px;">
  <h1 style="float: left;"> ${name} </h1>
 
-     <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px; width: 100%;" onclick="expandCategory(${catKey})">
+     <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="expandCategory(${catKey})">
        <h1 style="">+</h1>
        </a>
-
+       <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="toggle(2);setCat(${catKey});">
+       <h1> Add Item </h1>
+       </a>
      </div>
    <div class=invcatContent id=invCatContent${catKey} style="display: none;">
    <table class=invcatContentTab id=invCatTab${catKey} style=" width:100%; position: relative;">
@@ -32,7 +36,9 @@ var connection = mysql.createConnection({
 
 displayCategoriesMax();
 
-
+function setCat(catKey){
+  cat = catKey;
+}
 
 function createCategoryDropDown(name, catKey){
 $(document).ready(function () {
@@ -42,7 +48,7 @@ $(document).ready(function () {
        css:{
          "padding": "10px",
           "margin": "25px",
-  //         "background":"#242629",
+           "background":"#242629",
          }
         }
 
@@ -87,6 +93,32 @@ function insertCatRow(){
   });
 }
 
+function insertInvItem(){
+//  let invSubmitBtn = document.getElementById("invSubmitBtn");
+//      invSubmitBtn.addEventListener('click', event => {insertInvItem();});
+
+  const x = document.getElementById("invItemNameStock").value;
+  const y = document.getElementById("invItemNameItemPrice").value;
+  const z = document.getElementById("invItemNameItemSize").value;
+  const a = document.getElementById("invItemNameItemName").value;
+  const b = document.getElementById("invItemNameUPC").value;
+
+
+
+  $query = "INSERT INTO `inventory`(`UPC`, `ItemName`, `ItemSize`, `ItemPrice`, `ItemStock`, `CategoryID`) VALUES ('" + b + "','"+ a +"','"+ z +"','"+ y + "','"+ x +"','"+ cat +"')";
+
+  connection.query($query, function(err, rows, fields) {
+  if(err){
+      console.log("An error ocurred performing the query.");
+      console.log(err);
+      return;
+    }
+    console.log("Query succesfully executed", rows);
+  });
+
+  $("#invCatTab" + cat).load(location.href + " #invCatTab" + cat);
+  createInvItemList(cat);
+}
 
 
 function displayCategoriesQuery(result){
@@ -154,13 +186,8 @@ function createInvItemList(catKey){
 
 function createInventoryTable(arr1, catKey){
 var upa, itemName, itemSize, itemPrice, itemStock;
-var $table = $("<tr>"/*, itemTableRow*/);
-var itemTableRow = {
-//    class: "invCatTable",
-//    id: "tableRow" + catKey,
-    }
 
-  for(let i = 0; i <= arr1.length; i++){
+  for(let i = 0; i < arr1.length; i++){
 
      upa = arr1[i].UPC;
      console.log(upa);
@@ -169,16 +196,14 @@ var itemTableRow = {
      itemPrice = arr1[i].ItemPrice;
      itemStock = arr1[i].ItemStock;
 
-    //  $(document).ready(function () {
+     table = "<tr><td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
 
-      $table.html("<td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td>");
+     tableBody = $("#invCatTab" + catKey);
+     tableBody.append(table);
 
-      $("#invCatTab" + catKey).append($table);
-  //  })
+      console.log("invCatTab" + catKey)
+
           }
-
-
-
 
         }
 
@@ -192,4 +217,9 @@ var content = document.getElementById("invCatContent" + catKey)
    } else {
      content.style.display = "inline-block";
    }
+}
+
+
+function toggle2(catKey){
+
 }

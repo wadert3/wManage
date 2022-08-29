@@ -64,7 +64,7 @@
 
 
       <div class="plusButton">
-        <a href='#' onclick="toggle()">
+        <a href='#' onclick="toggle(1)">
 
           <h1>+</h1>
           </a>
@@ -77,34 +77,27 @@
     </div>
 
 
-
-
-
-      <div id="invCatHeadDisplayHead9" style=" color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px; padding:0;">
-      <h1 style="float: left;"> ${name} </h1>
-
-          <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;float: right;" onclick="expandCategory(9)">
-            <h1 style="top:0;">+</h1>
-            </a>
-
-          </div>
-        <div class=invcatContent id=invCatContent9 style="display: none; overflow: hidden; ">
-        <table class=invcatContentTab id=invCatTab9>
-        <tr><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
-        </table>
-        </div>
-
 </div>
 
 
-<div class = "popupCategory" id="popup">
+<div class = "popupCategory" id="popup1">
   <h1>Enter Category Name</h1>
   <br>
   <input type="text" id="categoryNameTxt" name="catName">
-  <input type="submit" value="Submit" onclick="toggle()" id='catSubmitBtn'>
+  <input type="submit" value="Submit" onclick="toggle(1); insertCatRow()" id='catSubmitBtn'>
 </div>
 
+<div class = "popupCategory" id="popup2">
+  <h1>Enter New Item Name</h1>
+  <br>
+  <input type="text" id="invItemNameUPC" name="UPC">
+  <input type="text" id="invItemNameItemName" name="ItemName">
+  <input type="text" id="invItemNameItemSize" name="ItemSize">
+  <input type="text" id="invItemNameItemPrice" name="ItemPrice">
+  <input type="text" id="invItemNameStock" name="ItemStock">
 
+  <input type="submit" value="Submit" onclick="toggle(2);insertInvItem();" id='invSubmitBtn'>
+</div>
 
 
   </body>
@@ -112,11 +105,11 @@
 
 
 
-  function toggle(){
+  function toggle(popKey){
     var blur = document.getElementById('mainContentId');
     blur.classList.toggle('active');
 
-    var popup = document.getElementById('popup');
+    var popup = document.getElementById('popup' + popKey);
     popup.classList.toggle('active');
   }
 
