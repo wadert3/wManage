@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <!--<script defer src='JS/connect.js'></script>-->
+    <script defer src='JS/indexlog.js'></script>
   </head>
   <body>
     <header class="headNavBar">
@@ -19,6 +19,13 @@
         <h1>Manage</h1>
       </div>
     </a>
+
+    <a id="logout">
+    <div class="pageHeadLogout" style="display: inline">
+      <h1>Logout</h1>
+    </div>
+  </a>
+
     </header>
     <nav class = 'sideNavBar'>
         <div class="navBarTopBtn" role="button">
@@ -44,6 +51,11 @@
       <h1 class="sideNavBtn">Inventory</h1>
     </div>
 </a>
+
+    <div class="navBarPfpBtn">
+      <img id="pfpicture" />
+      <span id="pfname"></span>
+    </div>
 
     <div class="navBarBtmBtn" role="button">
       <h1 class="sideNavBtn">Notifications</h1>

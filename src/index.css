@@ -77,12 +77,18 @@ float: left;
   height: 85px;
   display: flex;
   margin-top: auto;
+  margin-bottom: 0;
   justify-content: center;
   align-items: center;
   font-family: 'Roboto Mono', monospace;
   font-weight: 600;
   font-size: 30px;
   color: #99aab5;
+}
+
+.navBarBtmBtnt:hover{
+ background: #2c2f33;
+ cursor: pointer;
 }
 
 .navBarPfpBtn {
@@ -109,7 +115,7 @@ float: left;
   background: #242629;
   display: flex;
   flex: 0 1 auto;
-flex-flow: column;
+flex-flow: row;
 }
 
  .navBarTopBtn:hover{

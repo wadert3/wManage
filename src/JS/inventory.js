@@ -1,6 +1,5 @@
 window.$ = window.jQuery = require('jquery');
 var mysql = require('mysql');
-var Ably = require('ably');
 var connection = mysql.createConnection({
   host : 'localhost',
   user : 'root',
@@ -58,21 +57,11 @@ $(document).ready(function () {
   { name: name, catKey:catKey},
   ].map(invCategoriesTemp).join(''));
 
-        $(".mainContent").append($div);
-
-
-
+  $(".mainContent").append($div);
 
 })
 
-
-
-
 }
-
-
-
-
 
 
 function insertCatRow(){
@@ -90,8 +79,11 @@ function insertCatRow(){
       return;
     }
     console.log("Query succesfully executed", rows);
+    displayCategoriesMax();
   });
 }
+
+
 
 function insertInvItem(){
 //  let invSubmitBtn = document.getElementById("invSubmitBtn");
@@ -176,10 +168,7 @@ function createInvItemList(catKey){
         console.log(arr1);
         createInventoryTable(arr1, catKey);
 
-
-
   });
-
 
 }
 
