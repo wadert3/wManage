@@ -8,6 +8,7 @@ var connection = mysql.createConnection({
  });
 
 var cat;
+
  const invCategoriesTemp = ({catKey, name}) => `
  <div id="invCatHeadDisplayHead${catKey}" style="background:#242629; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px;">
  <h1 style="float: left;"> ${name} </h1>
@@ -34,6 +35,8 @@ var cat;
  })
 
 displayCategoriesMax();
+
+
 
 function setCat(catKey){
   cat = catKey;
@@ -65,8 +68,8 @@ $(document).ready(function () {
 
 
 function insertCatRow(){
-  let catSubmitBtn = document.getElementById("catSubmitBtn");
-      catSubmitBtn.addEventListener('click', event => {insertCatRow();});
+  //let catSubmitBtn = document.getElementById("catSubmitBtn");
+      //catSubmitBtn.addEventListener('click', event => {insertCatRow();});
 
   const x = document.getElementById("categoryNameTxt").value;
 
@@ -79,9 +82,12 @@ function insertCatRow(){
       return;
     }
     console.log("Query succesfully executed", rows);
-    displayCategoriesMax();
+
   });
+
 }
+
+
 
 
 
@@ -107,6 +113,9 @@ function insertInvItem(){
     }
     console.log("Query succesfully executed", rows);
   });
+
+
+
 
   $("#invCatTab" + cat).load(location.href + " #invCatTab" + cat);
   createInvItemList(cat);
