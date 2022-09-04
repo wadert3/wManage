@@ -9,16 +9,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <script defer src='JS/indexlog.js'></script>
+    <script defer src='main.js'></script>
   </head>
   <body>
     <header class="headNavBar">
-      <a href="index.html">
-      <div class="pageHead">
+
+      <div class="pageHead" id = "pageHead">
         <img src="CSS/IMG/w-logo-33543.png" alt="logo">
         <h1>Manage</h1>
       </div>
-    </a>
+
 
     <a id="logout">
     <div class="pageHeadLogout" style="display: inline">
@@ -27,46 +27,49 @@
   </a>
 
     </header>
+
     <nav class = 'sideNavBar'>
-        <div class="navBarTopBtn" role="button">
+
+      <div class="navBarTopBtnPrnt">
+        <div class="navBarTopBtn" role="button" id="newOrdersBtn">
           <h1 class="sideNavBtn">New Order</h1>
         </div>
 
-    <div class="navBarTopBtn" role="button">
+    <div class="navBarTopBtn" role="button" id="openOrdersBtn">
       <h1 class="sideNavBtn">Open Orders</h1>
     </div>
 
-    <div class="navBarTopBtn" role="button">
+    <div class="navBarTopBtn" role="button" id="pastOrdersBtn">
       <h1 class="sideNavBtn">Past Orders</h1>
     </div>
 
-    <a href="PAGES/employees.html">
-    <div class="navBarTopBtn" role="button">
+
+    <div class="navBarTopBtn" role="button" id="employeesBtn">
       <h1 class="sideNavBtn">Employees</h1>
     </div>
-  </a>
 
-    <a href="PAGES/inventory.html">
-    <div class="navBarTopBtn" role="button">
+
+
+    <div class="navBarTopBtn" role="button" id="inventoryBtn" onclick="">
       <h1 class="sideNavBtn">Inventory</h1>
     </div>
-</a>
+</div>
 
-    <div class="navBarPfpBtn">
+
+<div class="navBarBtmBtn">
+    <div class="navBarBtmBtnI" id="navBarPfpBtn">
       <img id="pfpicture" />
-      <span id="pfname"></span>
+      <h1 id="pfname"></h1>
     </div>
 
-    <div class="navBarBtmBtn" role="button">
+    <div class="navBarBtmBtnI" role="button" id="notificationsBtn">
       <h1 class="sideNavBtn">Notifications</h1>
     </div>
-
+</div>
   </nav>
 
   <div class = "mainContent">
-  <div class = "contentHead">
-      <h1>Welcome</h1>
-  </div>
+
 
   </div>
 
