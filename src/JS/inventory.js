@@ -1,22 +1,15 @@
-window.$ = window.jQuery = require('jquery');
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-  host : 'localhost',
-  user : 'root',
-  password: null,
-  database: 'wMng-db'
- });
+/*  */
+let cat;
 
-var cat;
  const invCategoriesTemp = ({catKey, name}) => `
  <div id="invCatHeadDisplayHead${catKey}" style="background:#242629; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px;">
  <h1 style="float: left;"> ${name} </h1>
 
-     <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="expandCategory(${catKey})">
-       <h1 style="">+</h1>
+     <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="inventory.expandCategory(${catKey})">
+       <h1 style="float: right;">+</h1>
        </a>
-       <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="toggle(2);setCat(${catKey});">
-       <h1> Add Item </h1>
+       <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="inventory.toggle(2); inventory.setCat(${catKey});">
+       <h1 style="float: right; padding-right: 15px;"> Add Item </h1>
        </a>
      </div>
    <div class=invcatContent id=invCatContent${catKey} style="display: none;">
@@ -26,50 +19,46 @@ var cat;
    </div>
    `;
 
- connection.connect(function(err) {
-     if(err){
-         console.log(err.code);
-         console.log(err.fatal);
-     }
- })
 
-displayCategoriesMax();
+   function toggle(popKey){
+     let blur = document.getElementById('mainContentId');
+     blur.classList.toggle('active');
+
+     let popup = document.getElementById('popup' + popKey);
+     popup.classList.toggle('active');
+   }
+//displayCategoriesMax();
 
 function setCat(catKey){
   cat = catKey;
 }
 
+
+
 function createCategoryDropDown(name, catKey){
 $(document).ready(function () {
-    var catDiv = {
+    let catDiv = {
         class: "invCatDisplay",
         id: "cat" + catKey,
        css:{
          "padding": "10px",
           "margin": "25px",
            "background":"#242629",
+           "overflow" : "hidden"
          }
         }
-
-      var $div = $("<div>", catDiv);
-
+      let $div = $("<div>", catDiv);
         $div.html([
   { name: name, catKey:catKey},
   ].map(invCategoriesTemp).join(''));
-
-  $(".mainContent").append($div);
-
+  $(".contentBody").append($div);
 })
-
 }
 
 
+
 function insertCatRow(){
-  let catSubmitBtn = document.getElementById("catSubmitBtn");
-      catSubmitBtn.addEventListener('click', event => {insertCatRow();});
-
   const x = document.getElementById("categoryNameTxt").value;
-
   $query = "INSERT INTO `inv_categories` (`categoryName`) VALUES ('" + x + "')";
 
   connection.query($query, function(err, rows, fields) {
@@ -79,26 +68,22 @@ function insertCatRow(){
       return;
     }
     console.log("Query succesfully executed", rows);
-    displayCategoriesMax();
   });
+  $(".contentBody").load(location.href + " .contentBody");
+  displayCategoriesMax();
+  document.getElementById("categoryNameTxt").value = ""
 }
 
 
 
 function insertInvItem(){
-//  let invSubmitBtn = document.getElementById("invSubmitBtn");
-//      invSubmitBtn.addEventListener('click', event => {insertInvItem();});
-
   const x = document.getElementById("invItemNameStock").value;
   const y = document.getElementById("invItemNameItemPrice").value;
   const z = document.getElementById("invItemNameItemSize").value;
   const a = document.getElementById("invItemNameItemName").value;
   const b = document.getElementById("invItemNameUPC").value;
 
-
-
   $query = "INSERT INTO `inventory`(`UPC`, `ItemName`, `ItemSize`, `ItemPrice`, `ItemStock`, `CategoryID`) VALUES ('" + b + "','"+ a +"','"+ z +"','"+ y + "','"+ x +"','"+ cat +"')";
-
   connection.query($query, function(err, rows, fields) {
   if(err){
       console.log("An error ocurred performing the query.");
@@ -107,31 +92,33 @@ function insertInvItem(){
     }
     console.log("Query succesfully executed", rows);
   });
-
   $("#invCatTab" + cat).load(location.href + " #invCatTab" + cat);
   createInvItemList(cat);
+  document.getElementById("invItemNameStock").value = "";
+  document.getElementById("invItemNameItemPrice").value = "";
+  document.getElementById("invItemNameItemSize").value = "";
+  document.getElementById("invItemNameItemName").value = "";
+  document.getElementById("invItemNameUPC").value = "";
 }
 
 
+
 function displayCategoriesQuery(result){
-var catName;
+let catName;
 
 for(let i = 1; i <= result; i++){
   $query1 = "SELECT categoryName FROM inv_categories WHERE categoryKey =" + i;
-//  $query = "SELECT * FROM inventory WHERE categoryID =" + i;
   connection.query($query1 , function(err, result, fields) {
   if(err){
       console.log("An error ocurred performing the query.");
       console.log(err);
       return;
     }
-
         catName = result[0].categoryName;
         console.log(result);
         createCategoryDropDown(catName, i);
         createInvItemList(i);
       });
-
   }
 }
 
@@ -146,7 +133,7 @@ function displayCategoriesMax(){
       console.log(err);
       return;
     }
-        var catKey = result[0].categoryKey;
+        catKey = result[0].categoryKey;
         console.log(result);
         displayCategoriesQuery(catKey);
   });
@@ -155,7 +142,6 @@ function displayCategoriesMax(){
 
 
 function createInvItemList(catKey){
-
   $query = "SELECT * FROM `inventory` WHERE CategoryID = " + catKey;
 
   connection.query($query, function(err, result, fields) {
@@ -164,42 +150,35 @@ function createInvItemList(catKey){
       console.log(err);
       return;
     }
-        var arr1 = result;
+        let arr1 = result;
         console.log(arr1);
         createInventoryTable(arr1, catKey);
-
   });
-
 }
 
 
+
 function createInventoryTable(arr1, catKey){
-var upa, itemName, itemSize, itemPrice, itemStock;
+let upa, itemName, itemSize, itemPrice, itemStock;
 
   for(let i = 0; i < arr1.length; i++){
-
      upa = arr1[i].UPC;
      console.log(upa);
      itemName = arr1[i].ItemName;
      itemSize = arr1[i].ItemSize;
      itemPrice = arr1[i].ItemPrice;
      itemStock = arr1[i].ItemStock;
-
      table = "<tr><td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
-
      tableBody = $("#invCatTab" + catKey);
      tableBody.append(table);
-
       console.log("invCatTab" + catKey)
-
           }
-
         }
 
 
 
 function expandCategory(catKey){
-var content = document.getElementById("invCatContent" + catKey)
+let content = document.getElementById("invCatContent" + catKey)
 
   if (content.style.display === "inline-block") {
      content.style.display = "none";
@@ -209,6 +188,22 @@ var content = document.getElementById("invCatContent" + catKey)
 }
 
 
-function toggle2(catKey){
 
+function toggle2(catKey){
+  console.log(catKey);
+}
+
+module.exports = {
+  toggle,
+  invCategoriesTemp,
+  cat,
+  setCat,
+  createCategoryDropDown,
+  insertCatRow,
+  insertInvItem,
+  displayCategoriesQuery,
+  displayCategoriesMax,
+  createInvItemList,
+  createInventoryTable,
+  expandCategory,
 }
