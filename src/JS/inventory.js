@@ -115,7 +115,7 @@ for(let i = 1; i <= result; i++){
       return;
     }
         catName = result[0].categoryName;
-        console.log(result);
+        console.log("Category Loaded: " , result[0].categoryName);
         createCategoryDropDown(catName, i);
         createInvItemList(i);
       });
@@ -134,7 +134,7 @@ function displayCategoriesMax(){
       return;
     }
         catKey = result[0].categoryKey;
-        console.log(result);
+        console.log("Max Cateogries: ", result[0].categoryKey);
         displayCategoriesQuery(catKey);
   });
 }
@@ -151,7 +151,7 @@ function createInvItemList(catKey){
       return;
     }
         let arr1 = result;
-        console.log(arr1);
+        console.log("Category ", catKey, " table loaded");
         createInventoryTable(arr1, catKey);
   });
 }
@@ -163,7 +163,6 @@ let upa, itemName, itemSize, itemPrice, itemStock;
 
   for(let i = 0; i < arr1.length; i++){
      upa = arr1[i].UPC;
-     console.log(upa);
      itemName = arr1[i].ItemName;
      itemSize = arr1[i].ItemSize;
      itemPrice = arr1[i].ItemPrice;
@@ -171,7 +170,6 @@ let upa, itemName, itemSize, itemPrice, itemStock;
      table = "<tr><td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
      tableBody = $("#invCatTab" + catKey);
      tableBody.append(table);
-      console.log("invCatTab" + catKey)
           }
         }
 

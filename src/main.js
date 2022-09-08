@@ -2,6 +2,8 @@ window.$ = window.jQuery = require('jquery');
 let mysql = require('mysql');
 const inventory = require("../src/JS/inventory.js");
 const logIn = require("../src/JS/indexlog.js");
+const profileData = require("../src/JS/profileHandling.js");
+
 
 let connection = mysql.createConnection({
   host : 'localhost',
@@ -17,23 +19,31 @@ let connection = mysql.createConnection({
  })
 
 
+profileData.getProfile()
+  .then(() => {
 
 
+      profileData.testAccount();
+      profileData.queryPermissionsId();
 
 
-logIn.getProfileData().then(() => {
-console.log(logIn.pfData);
 
 $(document).ready(function(){
 
+
+
+
    $(".mainContent").load("PAGES/home.html", function() {
-       $(".welcomeBanner").html("Welcome " + logIn.pfData.name);
+       $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
    });
 
    $("#navBarPfpBtn").click(function(){
+
+
+
      $(".mainContent").load("PAGES/profile.html", function() {
-       document.getElementById('pfpictureBanner').src = logIn.pfData.picture;
-       document.getElementById('pfnameBanner').innerText = logIn.pfData.name;
+       document.getElementById('pfpictureBanner').src = profileData.pfData.picture;
+       document.getElementById('pfnameBanner').innerText = profileData.pfData.nickname;
      });
 
        $(".navBarTopBtn").css('background-color', '#242629');
@@ -44,8 +54,9 @@ $(document).ready(function(){
        });
 
    $("#pageHead").click(function(){
+
      $(".mainContent").load("PAGES/home.html", function() {
-         $(".welcomeBanner").html("Welcome " + logIn.pfData.name);
+         $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
      });
 
      $(".navBarTopBtn").css('background-color', '#242629');
@@ -53,19 +64,20 @@ $(document).ready(function(){
 
    });
 
+      $("body").on("click", "#inventoryBtn", function(){
+      inventory.displayCategoriesMax();
+    $('.mainContent').load('PAGES/inventory.html');
+    $(".navBarTopBtn").removeClass("selected");
+    $(".navBarBtmBtnI").removeClass("selected");
 
-    $("#inventoryBtn").click(function(){
-       $('.mainContent').load('PAGES/inventory.html');
+    $("#inventoryBtn").addClass("selected");
 
-       $(".navBarTopBtn").css('background-color', '#242629');
-       $("#notificationsBtn").css('background-color', '#242629');
 
-       $("#inventoryBtn").css('background-color', '#2c2f33');
-     inventory.displayCategoriesMax();
+});
 
-    });
 
-    $("#employeesBtn").click(function(){
+      $("body").on("click", "#employeesBtn", function(){
+
         $('.mainContent').load('PAGES/employees.html');
 
         $(".navBarTopBtn").css('background-color', '#242629');
@@ -75,7 +87,8 @@ $(document).ready(function(){
 
         });
 
-      $("#newOrdersBtn").click(function(){
+      $("body").on("click", "#newOrdersBtn", function(){
+
         $('.mainContent').load('PAGES/newOrders.html');
 
         $(".navBarTopBtn").css('background-color', '#242629');
@@ -86,7 +99,8 @@ $(document).ready(function(){
 
         });
 
-      $("#openOrdersBtn").click(function(){
+      $("body").on("click", "#openOrdersBtn", function(){
+
           $('.mainContent').load('PAGES/openOrders.html');
 
           $(".navBarTopBtn").css('background-color', '#242629');
@@ -96,7 +110,8 @@ $(document).ready(function(){
 
           });
 
-        $("#pastOrdersBtn").click(function(){
+      $("body").on("click", "#pastOrdersBtn", function(){
+
           $('.mainContent').load('PAGES/pastOrders.html');
 
           $(".navBarTopBtn").css('background-color', '#242629');
@@ -107,6 +122,7 @@ $(document).ready(function(){
           });
 
         $("#notificationsBtn").click(function(){
+
             $('.mainContent').load('PAGES/notifications.html');
 
             $(".navBarTopBtn").css('background-color', '#242629');
@@ -119,5 +135,4 @@ $(document).ready(function(){
 
 
           });
-
-})
+        })
