@@ -1,5 +1,6 @@
 /*  */
 let cat;
+let inventoryPage = true;
 
  const invCategoriesTemp = ({catKey, name}) => `
  <div id="invCatHeadDisplayHead${catKey}" style="background:#242629; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px;">
@@ -9,7 +10,7 @@ let cat;
        <h1 style="float: right;">+</h1>
        </a>
        <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="inventory.toggle(2); inventory.setCat(${catKey});">
-       <h1 style="float: right; padding-right: 15px;"> Add Item </h1>
+       <h1 class="invCatAddItemBtn" style="float: right; padding-right: 15px;"> Add Item </h1>
        </a>
      </div>
    <div class=invcatContent id=invCatContent${catKey} style="display: none;">
@@ -32,10 +33,12 @@ let cat;
 function setCat(catKey){
   cat = catKey;
 }
+function setInventory(value){
+  inventoryPage = value;
+}
 
 
-
-function createCategoryDropDown(name, catKey){
+function createCategoryDropDown(name, catKey, append){
 $(document).ready(function () {
     let catDiv = {
         class: "invCatDisplay",
@@ -51,7 +54,12 @@ $(document).ready(function () {
         $div.html([
   { name: name, catKey:catKey},
   ].map(invCategoriesTemp).join(''));
-  $(".contentBody").append($div);
+  $(append).append($div);
+
+  if (inventoryPage == false){
+    $(".invCatAddItemBtn").hide();
+
+  }
 })
 }
 
@@ -103,7 +111,7 @@ function insertInvItem(){
 
 
 
-function displayCategoriesQuery(result){
+function displayCategoriesQuery(result, append){
 let catName;
 
 for(let i = 1; i <= result; i++){
@@ -116,7 +124,7 @@ for(let i = 1; i <= result; i++){
     }
         catName = result[0].categoryName;
         console.log("Category Loaded: " , result[0].categoryName);
-        createCategoryDropDown(catName, i);
+        createCategoryDropDown(catName, i, append);
         createInvItemList(i);
       });
   }
@@ -124,7 +132,7 @@ for(let i = 1; i <= result; i++){
 
 
 
-function displayCategoriesMax(){
+function displayCategoriesMax(append){
   $query = "SELECT categoryKey FROM inv_categories order by categoryKey desc limit 1";
 
   connection.query($query, function(err, result, fields) {
@@ -135,7 +143,7 @@ function displayCategoriesMax(){
     }
         catKey = result[0].categoryKey;
         console.log("Max Cateogries: ", result[0].categoryKey);
-        displayCategoriesQuery(catKey);
+        displayCategoriesQuery(catKey, append);
   });
 }
 
@@ -204,4 +212,5 @@ module.exports = {
   createInvItemList,
   createInventoryTable,
   expandCategory,
+  setInventory
 }

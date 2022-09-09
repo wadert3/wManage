@@ -163,6 +163,5 @@ module.exports = {
   queryPermissionsId,
   pfData,
   testAccount,
-  queryPermissions,
   loadNav
 }

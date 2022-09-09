@@ -46,10 +46,10 @@ $(document).ready(function(){
        document.getElementById('pfnameBanner').innerText = profileData.pfData.nickname;
      });
 
-       $(".navBarTopBtn").css('background-color', '#242629');
-       $(".navBarBtmBtnI").css('background-color', '#242629');
+     $(".navBarTopBtn").removeClass("selected");
+     $(".navBarBtmBtnI").removeClass("selected");
 
-       $("#navBarPfpBtn").css('background-color', '#2c2f33');
+     $("#navBarPfpBtn").addClass("selected");
 
        });
 
@@ -59,14 +59,15 @@ $(document).ready(function(){
          $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
      });
 
-     $(".navBarTopBtn").css('background-color', '#242629');
-     $("#notificationsBtn").css('background-color', '#242629');
+     $(".navBarTopBtn").removeClass("selected");
+     $(".navBarBtmBtnI").removeClass("selected");
 
    });
 
       $("body").on("click", "#inventoryBtn", function(){
-      inventory.displayCategoriesMax();
+        inventory.setInventory(true);
     $('.mainContent').load('PAGES/inventory.html');
+          inventory.displayCategoriesMax(".contentBody");
     $(".navBarTopBtn").removeClass("selected");
     $(".navBarBtmBtnI").removeClass("selected");
 
@@ -80,22 +81,26 @@ $(document).ready(function(){
 
         $('.mainContent').load('PAGES/employees.html');
 
-        $(".navBarTopBtn").css('background-color', '#242629');
-        $("#notificationsBtn").css('background-color', '#242629');
+        $(".navBarTopBtn").removeClass("selected");
+        $(".navBarBtmBtnI").removeClass("selected");
 
-        $("#employeesBtn").css('background-color', '#2c2f33');
+        $("#employeesBtn").addClass("selected");
 
         });
 
       $("body").on("click", "#newOrdersBtn", function(){
 
         $('.mainContent').load('PAGES/newOrders.html');
+        inventory.setInventory(false);
+        inventory.displayCategoriesMax("#createOrderContentLeft");
 
-        $(".navBarTopBtn").css('background-color', '#242629');
-        $("#notificationsBtn").css('background-color', '#242629');
 
-        $("#newOrdersBtn").css('background-color', '#2c2f33');
 
+
+        $(".navBarTopBtn").removeClass("selected");
+        $(".navBarBtmBtnI").removeClass("selected");
+
+        $("#newOrdersBtn").addClass("selected");
 
         });
 
@@ -103,10 +108,10 @@ $(document).ready(function(){
 
           $('.mainContent').load('PAGES/openOrders.html');
 
-          $(".navBarTopBtn").css('background-color', '#242629');
-          $("#notificationsBtn").css('background-color', '#242629');
+          $(".navBarTopBtn").removeClass("selected");
+          $(".navBarBtmBtnI").removeClass("selected");
 
-          $("#openOrdersBtn").css('background-color', '#2c2f33');
+          $("#openOrdersBtn").addClass("selected");
 
           });
 
@@ -114,10 +119,10 @@ $(document).ready(function(){
 
           $('.mainContent').load('PAGES/pastOrders.html');
 
-          $(".navBarTopBtn").css('background-color', '#242629');
-          $("#notificationsBtn").css('background-color', '#242629');
+          $(".navBarTopBtn").removeClass("selected");
+          $(".navBarBtmBtnI").removeClass("selected");
 
-          $("#pastOrdersBtn").css('background-color', '#2c2f33');
+          $("#pastOrdersBtn").addClass("selected");
 
           });
 
@@ -125,10 +130,10 @@ $(document).ready(function(){
 
             $('.mainContent').load('PAGES/notifications.html');
 
-            $(".navBarTopBtn").css('background-color', '#242629');
-            $("#notificationsBtn").css('background-color', '#242629');
+            $(".navBarTopBtn").removeClass("selected");
+            $(".navBarBtmBtnI").removeClass("selected");
 
-            $("#notificationsBtn").css('background-color', '#2c2f33');
+            $("#notificationsBtn").addClass("selected");
 
             });
 
