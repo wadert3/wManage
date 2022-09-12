@@ -2,6 +2,8 @@ window.$ = window.jQuery = require('jquery');
 let mysql = require('mysql');
 const inventory = require("../src/JS/inventory.js");
 const logIn = require("../src/JS/indexlog.js");
+const profileData = require("../src/JS/profileHandling.js");
+const orderCreation = require("../src/JS/createOrder.js");
 
 let connection = mysql.createConnection({
   host : 'localhost',
@@ -17,107 +19,138 @@ let connection = mysql.createConnection({
  })
 
 
+profileData.getProfile()
+  .then(() => {
 
 
 
 
-logIn.getProfileData().then(() => {
-console.log(logIn.pfData);
 
 $(document).ready(function(){
 
-   $(".mainContent").load("PAGES/home.html", function() {
-       $(".welcomeBanner").html("Welcome " + logIn.pfData.name);
-   });
+  profileData.testAccount();
 
-   $("#navBarPfpBtn").click(function(){
+
+
+   $(".mainContent").load("PAGES/home.html", function() {
+       $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
+   });
+   $("body").on("click", "#navBarPfpBtn", function(){
+
+
      $(".mainContent").load("PAGES/profile.html", function() {
-       document.getElementById('pfpictureBanner').src = logIn.pfData.picture;
-       document.getElementById('pfnameBanner').innerText = logIn.pfData.name;
+       document.getElementById('pfpictureBanner').src = profileData.pfData.picture;
+       document.getElementById('pfnameBanner').innerText = profileData.pfData.nickname;
      });
 
-       $(".navBarTopBtn").css('background-color', '#242629');
-       $(".navBarBtmBtnI").css('background-color', '#242629');
+     $(".navBarTopBtn").removeClass("selected");
+     $(".navBarBtmBtnI").removeClass("selected");
 
-       $("#navBarPfpBtn").css('background-color', '#2c2f33');
+     $("#navBarPfpBtn").addClass("selected");
 
        });
 
-   $("#pageHead").click(function(){
+      $("body").on("click", "#pageHead", function(){
+
      $(".mainContent").load("PAGES/home.html", function() {
-         $(".welcomeBanner").html("Welcome " + logIn.pfData.name);
+         $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
      });
 
-     $(".navBarTopBtn").css('background-color', '#242629');
-     $("#notificationsBtn").css('background-color', '#242629');
+     $(".navBarTopBtn").removeClass("selected");
+     $(".navBarBtmBtnI").removeClass("selected");
 
    });
 
+      $("body").on("click", "#inventoryBtn", function(){
+        inventory.setInventory(true);
+    $('.mainContent').load('PAGES/inventory.html');
+          inventory.displayCategoriesMax(".contentBody");
+    $(".navBarTopBtn").removeClass("selected");
+    $(".navBarBtmBtnI").removeClass("selected");
 
-    $("#inventoryBtn").click(function(){
-       $('.mainContent').load('PAGES/inventory.html');
+    $("#inventoryBtn").addClass("selected");
 
-       $(".navBarTopBtn").css('background-color', '#242629');
-       $("#notificationsBtn").css('background-color', '#242629');
 
-       $("#inventoryBtn").css('background-color', '#2c2f33');
-     inventory.displayCategoriesMax();
+});
 
-    });
 
-    $("#employeesBtn").click(function(){
+      $("body").on("click", "#employeesBtn", function(){
+
         $('.mainContent').load('PAGES/employees.html');
 
-        $(".navBarTopBtn").css('background-color', '#242629');
-        $("#notificationsBtn").css('background-color', '#242629');
+        $(".navBarTopBtn").removeClass("selected");
+        $(".navBarBtmBtnI").removeClass("selected");
 
-        $("#employeesBtn").css('background-color', '#2c2f33');
+        $("#employeesBtn").addClass("selected");
 
         });
 
-      $("#newOrdersBtn").click(function(){
+      $("body").on("click", "#newOrdersBtn", function(){
+
         $('.mainContent').load('PAGES/newOrders.html');
+        inventory.setInventory(false);
+        inventory.displayCategoriesMax("#createOrderContentLeft");
 
-        $(".navBarTopBtn").css('background-color', '#242629');
-        $("#notificationsBtn").css('background-color', '#242629');
+        $("body").on("click", "tr", function(){
 
-        $("#newOrdersBtn").css('background-color', '#2c2f33');
+          let id = $(this).attr('id');
 
+          if(id != undefined){
+          console.log(id);
+
+          let itemID = $('#' + id).attr('class');
+          console.log(itemID);
+          orderCreation.addToOrderList(itemID);
+
+
+          }
+          });
+
+
+
+
+        $(".navBarTopBtn").removeClass("selected");
+        $(".navBarBtmBtnI").removeClass("selected");
+
+        $("#newOrdersBtn").addClass("selected");
 
         });
 
-      $("#openOrdersBtn").click(function(){
+      $("body").on("click", "#openOrdersBtn", function(){
+
           $('.mainContent').load('PAGES/openOrders.html');
 
-          $(".navBarTopBtn").css('background-color', '#242629');
-          $("#notificationsBtn").css('background-color', '#242629');
+          $(".navBarTopBtn").removeClass("selected");
+          $(".navBarBtmBtnI").removeClass("selected");
 
-          $("#openOrdersBtn").css('background-color', '#2c2f33');
+          $("#openOrdersBtn").addClass("selected");
 
           });
 
-        $("#pastOrdersBtn").click(function(){
+      $("body").on("click", "#pastOrdersBtn", function(){
+
           $('.mainContent').load('PAGES/pastOrders.html');
 
-          $(".navBarTopBtn").css('background-color', '#242629');
-          $("#notificationsBtn").css('background-color', '#242629');
+          $(".navBarTopBtn").removeClass("selected");
+          $(".navBarBtmBtnI").removeClass("selected");
 
-          $("#pastOrdersBtn").css('background-color', '#2c2f33');
+          $("#pastOrdersBtn").addClass("selected");
 
           });
 
-        $("#notificationsBtn").click(function(){
+          $("body").on("click", "#notificationsBtn", function(){
+
+
             $('.mainContent').load('PAGES/notifications.html');
 
-            $(".navBarTopBtn").css('background-color', '#242629');
-            $("#notificationsBtn").css('background-color', '#242629');
+            $(".navBarTopBtn").removeClass("selected");
+            $(".navBarBtmBtnI").removeClass("selected");
 
-            $("#notificationsBtn").css('background-color', '#2c2f33');
+            $("#notificationsBtn").addClass("selected");
 
             });
 
 
 
           });
-
-})
+        })

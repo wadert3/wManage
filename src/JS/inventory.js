@@ -1,5 +1,6 @@
 /*  */
 let cat;
+let inventoryPage = true;
 
  const invCategoriesTemp = ({catKey, name}) => `
  <div id="invCatHeadDisplayHead${catKey}" style="background:#242629; color: #bbbdc3;  font-family: 'Roboto Mono', monospace; font-size: 25px;">
@@ -9,12 +10,12 @@ let cat;
        <h1 style="float: right;">+</h1>
        </a>
        <a href="#" class=invCatContentBtn style="color: #bbbdc3;font-family: 'Roboto Mono', monospace;font-size: 25px;" onclick="inventory.toggle(2); inventory.setCat(${catKey});">
-       <h1 style="float: right; padding-right: 15px;"> Add Item </h1>
+       <h1 class="invCatAddItemBtn" style="float: right; padding-right: 15px;"> Add Item </h1>
        </a>
      </div>
    <div class=invcatContent id=invCatContent${catKey} style="display: none;">
    <table class=invcatContentTab id=invCatTab${catKey} style=" width:100%; position: relative;">
-   <tr><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
+   <tr class="trHead" style="font-family: 'Roboto Mono', monospace;font-weight: 600;font-size: 15px;color: #bbbdc3;font-style: bold;"><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
    </table>
    </div>
    `;
@@ -33,9 +34,12 @@ function setCat(catKey){
   cat = catKey;
 }
 
+function setInventory(value){
+  inventoryPage = value;
+}
 
 
-function createCategoryDropDown(name, catKey){
+function createCategoryDropDown(name, catKey, append){
 $(document).ready(function () {
     let catDiv = {
         class: "invCatDisplay",
@@ -51,7 +55,12 @@ $(document).ready(function () {
         $div.html([
   { name: name, catKey:catKey},
   ].map(invCategoriesTemp).join(''));
-  $(".contentBody").append($div);
+  $(append).append($div);
+
+  if (inventoryPage == false){
+    $(".invCatAddItemBtn").hide();
+
+  }
 })
 }
 
@@ -103,7 +112,7 @@ function insertInvItem(){
 
 
 
-function displayCategoriesQuery(result){
+function displayCategoriesQuery(result, append){
 let catName;
 
 for(let i = 1; i <= result; i++){
@@ -115,8 +124,8 @@ for(let i = 1; i <= result; i++){
       return;
     }
         catName = result[0].categoryName;
-        console.log(result);
-        createCategoryDropDown(catName, i);
+        console.log("Category Loaded: " , result[0].categoryName);
+        createCategoryDropDown(catName, i, append);
         createInvItemList(i);
       });
   }
@@ -124,7 +133,7 @@ for(let i = 1; i <= result; i++){
 
 
 
-function displayCategoriesMax(){
+function displayCategoriesMax(append){
   $query = "SELECT categoryKey FROM inv_categories order by categoryKey desc limit 1";
 
   connection.query($query, function(err, result, fields) {
@@ -134,8 +143,8 @@ function displayCategoriesMax(){
       return;
     }
         catKey = result[0].categoryKey;
-        console.log(result);
-        displayCategoriesQuery(catKey);
+        console.log("Max Cateogries: ", result[0].categoryKey);
+        displayCategoriesQuery(catKey, append);
   });
 }
 
@@ -151,7 +160,8 @@ function createInvItemList(catKey){
       return;
     }
         let arr1 = result;
-        console.log(arr1);
+        console.log(result);
+        console.log("Category ", catKey, " table loaded");
         createInventoryTable(arr1, catKey);
   });
 }
@@ -159,19 +169,17 @@ function createInvItemList(catKey){
 
 
 function createInventoryTable(arr1, catKey){
-let upa, itemName, itemSize, itemPrice, itemStock;
+let upa, itemName, itemSize, itemPrice, itemStock, itemID;
 
   for(let i = 0; i < arr1.length; i++){
+     itemID = arr1[i].ItemID;
      upa = arr1[i].UPC;
-     console.log(upa);
      itemName = arr1[i].ItemName;
      itemSize = arr1[i].ItemSize;
      itemPrice = arr1[i].ItemPrice;
      itemStock = arr1[i].ItemStock;
-     table = "<tr><td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
-     tableBody = $("#invCatTab" + catKey);
-     tableBody.append(table);
-      console.log("invCatTab" + catKey)
+     table = "<tr class = '" + itemID + "' id='cat" + catKey + "Row" + i + "'><td>" + upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
+     $("#invCatTab" + catKey).append(table);
           }
         }
 
@@ -206,4 +214,5 @@ module.exports = {
   createInvItemList,
   createInventoryTable,
   expandCategory,
+  setInventory
 }
