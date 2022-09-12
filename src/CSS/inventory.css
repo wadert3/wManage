@@ -15,7 +15,7 @@
   filter: brightness(50%);
     transition: 0.5s;
 }
-
+/*
 table, th, td, tr {
   border: 1px solid;
   padding: 15px;
@@ -28,7 +28,7 @@ table, th, td, tr {
 table th {
     color: #bbbdc3;
 }
-
+*/
 
 .popupCategory{
   position: absolute;

@@ -31,7 +31,7 @@ function getAuthenticationURL() {
     "https://" +
     auth0Domain +
     "/authorize?" +
-    "scope=openid profile offline_access&" +
+    "scope=openid email profile offline_access&" +
     "response_type=code&" +
     "client_id=" +
     clientId +

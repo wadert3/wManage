@@ -32,10 +32,10 @@ async function getProfile() {
   pfData.email =  profile.email;
   console.log("Profile Grabbed", profile);
 
-
 };
 
 function testAccount() {
+
   $query = "SELECT email FROM `accounts` WHERE email = '" + pfData.email + "'";
 
   connection.query($query, function(err, result, fields) {
@@ -45,6 +45,7 @@ function testAccount() {
 
     if (result.length > 0){
     console.log("Account in db");
+    queryPermissionsId();
   } else if(result.length == 0){
     console.log("Account not in DB");
     createAccount();
@@ -61,10 +62,11 @@ function createAccount() {
       }
       console.log("Account Created", rows)
       });
+      queryPermissionsId();
 }
 
 function queryPermissionsId() {
-  let x;
+  console.log(pfData);
   console.log("SELECT id FROM `accounts` WHERE email = '" + pfData.email + "'");
   $query =  "SELECT id FROM `accounts` WHERE email = '" + pfData.email + "'";
   connection.query($query, function(err, result, fields) {
@@ -74,28 +76,8 @@ function queryPermissionsId() {
       }
       console.log(result);
       x = result[0].id;
+      queryPermissions(x);
 
-      console.log("SELECT * FROM `permissions` WHERE accountId = '" + x + "'");
-      $query =  "SELECT * FROM `permissions` WHERE accountId = '" + x + "'";
-        connection.query($query, function(err, result, fields) {
-          if(err){
-              console.log(err);
-            }
-            console.log(result[0]);
-
-            pfData.accountId = result[0].accountId;
-            pfData.can_see_inventory = result[0].can_see_inventory;
-            pfData.can_see_employees = result[0].can_see_employees;
-            pfData.can_see_past_orders = result[0].can_see_past_orders;
-            pfData.can_see_open_orders = result[0].can_see_open_orders;
-            pfData.can_create_order = result[0].can_create_order;
-            pfData.can_change_privialages = result[0].can_change_privialages;
-            pfData.can_create_inventory_items = result[0].can_create_inventory_items;
-            pfData.can_create_inventory_categories = result[0].can_create_inventory_categories;
-            pfData.is_admin = result[0].is_admin;
-            loadNav();
-            console.log(pfData);
-          });
 
 
   });
@@ -103,6 +85,30 @@ function queryPermissionsId() {
 
 }
 
+
+function queryPermissions(x) {
+  console.log("SELECT * FROM `permissions` WHERE accountId = '" + x + "'");
+  $query =  "SELECT * FROM `permissions` WHERE accountId = '" + x + "'";
+    connection.query($query, function(err, result, fields) {
+      if(err){
+          console.log(err);
+        }
+        console.log(result[0]);
+
+        pfData.accountId = result[0].accountId;
+        pfData.can_see_inventory = result[0].can_see_inventory;
+        pfData.can_see_employees = result[0].can_see_employees;
+        pfData.can_see_past_orders = result[0].can_see_past_orders;
+        pfData.can_see_open_orders = result[0].can_see_open_orders;
+        pfData.can_create_order = result[0].can_create_order;
+        pfData.can_change_privialages = result[0].can_change_privialages;
+        pfData.can_create_inventory_items = result[0].can_create_inventory_items;
+        pfData.can_create_inventory_categories = result[0].can_create_inventory_categories;
+        pfData.is_admin = result[0].is_admin;
+        loadNav();
+        console.log(pfData);
+      });
+}
 
 function loadNav() {
   let topBtn = $(".navBarTopBtnPrnt");

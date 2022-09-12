@@ -15,7 +15,7 @@ let inventoryPage = true;
      </div>
    <div class=invcatContent id=invCatContent${catKey} style="display: none;">
    <table class=invcatContentTab id=invCatTab${catKey} style=" width:100%; position: relative;">
-   <tr><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
+   <tr class="trHead" style="font-family: 'Roboto Mono', monospace;font-weight: 600;font-size: 15px;color: #bbbdc3;font-style: bold;"><th>Item UPC</th><th>Item Name</th><th>Item Size</th><th>Item Price</th><th>Item Stock</th></tr>
    </table>
    </div>
    `;
@@ -33,6 +33,7 @@ let inventoryPage = true;
 function setCat(catKey){
   cat = catKey;
 }
+
 function setInventory(value){
   inventoryPage = value;
 }
@@ -159,6 +160,7 @@ function createInvItemList(catKey){
       return;
     }
         let arr1 = result;
+        console.log(result);
         console.log("Category ", catKey, " table loaded");
         createInventoryTable(arr1, catKey);
   });
@@ -167,17 +169,17 @@ function createInvItemList(catKey){
 
 
 function createInventoryTable(arr1, catKey){
-let upa, itemName, itemSize, itemPrice, itemStock;
+let upa, itemName, itemSize, itemPrice, itemStock, itemID;
 
   for(let i = 0; i < arr1.length; i++){
+     itemID = arr1[i].ItemID;
      upa = arr1[i].UPC;
      itemName = arr1[i].ItemName;
      itemSize = arr1[i].ItemSize;
      itemPrice = arr1[i].ItemPrice;
      itemStock = arr1[i].ItemStock;
-     table = "<tr><td>"+ upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
-     tableBody = $("#invCatTab" + catKey);
-     tableBody.append(table);
+     table = "<tr class = '" + itemID + "' id='cat" + catKey + "Row" + i + "'><td>" + upa + "</td><td>"+ itemName + "</td><td>"+ itemSize + "</td><td>"+ itemPrice + "</td><td>"+ itemStock + "</td></tr>";
+     $("#invCatTab" + catKey).append(table);
           }
         }
 

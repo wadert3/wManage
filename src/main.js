@@ -3,7 +3,7 @@ let mysql = require('mysql');
 const inventory = require("../src/JS/inventory.js");
 const logIn = require("../src/JS/indexlog.js");
 const profileData = require("../src/JS/profileHandling.js");
-
+const orderCreation = require("../src/JS/createOrder.js");
 
 let connection = mysql.createConnection({
   host : 'localhost',
@@ -23,22 +23,19 @@ profileData.getProfile()
   .then(() => {
 
 
-      profileData.testAccount();
-      profileData.queryPermissionsId();
 
 
 
 $(document).ready(function(){
 
+  profileData.testAccount();
 
 
 
    $(".mainContent").load("PAGES/home.html", function() {
        $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
    });
-
-   $("#navBarPfpBtn").click(function(){
-
+   $("body").on("click", "#navBarPfpBtn", function(){
 
 
      $(".mainContent").load("PAGES/profile.html", function() {
@@ -53,7 +50,7 @@ $(document).ready(function(){
 
        });
 
-   $("#pageHead").click(function(){
+      $("body").on("click", "#pageHead", function(){
 
      $(".mainContent").load("PAGES/home.html", function() {
          $(".welcomeBanner").html("Welcome " + profileData.pfData.name);
@@ -94,6 +91,21 @@ $(document).ready(function(){
         inventory.setInventory(false);
         inventory.displayCategoriesMax("#createOrderContentLeft");
 
+        $("body").on("click", "tr", function(){
+
+          let id = $(this).attr('id');
+
+          if(id != undefined){
+          console.log(id);
+
+          let itemID = $('#' + id).attr('class');
+          console.log(itemID);
+          orderCreation.addToOrderList(itemID);
+
+
+          }
+          });
+
 
 
 
@@ -126,7 +138,8 @@ $(document).ready(function(){
 
           });
 
-        $("#notificationsBtn").click(function(){
+          $("body").on("click", "#notificationsBtn", function(){
+
 
             $('.mainContent').load('PAGES/notifications.html');
 

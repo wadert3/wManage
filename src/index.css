@@ -285,11 +285,11 @@ table, th, td, tr {
   align-content: center;
   color: #bbbdc3;
 }
-
+/*
 table th {
     color: #bbbdc3;
 }
-
+*/
 
 .popupCategory{
   position: absolute;
@@ -370,4 +370,17 @@ table th {
   font-style: bold;
   padding-left: 15px;
 
+}
+.trHead{
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 35px;
+  color: #bbbdc3;
+  font-style: bold;
+}
+
+
+.mainContent#mainContentId.active{
+  filter: brightness(50%);
+    transition: 0.5s;
 }
