@@ -1,4 +1,7 @@
 # wManage
+
+This was my first project when first learning the basics of Node.js and Electron and some very basic fundamentals of application development: 
+
  A simple buisness management tools designed to create and distribute orders as well as manage inventory and manager/employee communication
 
 Install all electron dependencies. I used electron-forge with npx
